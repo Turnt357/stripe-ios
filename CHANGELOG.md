@@ -1,4 +1,11 @@
 ## X.Y.Z 2023-xx-yy
+### PaymentSheet
+* [Added] Support for [Card Brand Choice](https://stripe.com/docs/card-brand-choice).
+
+### CustomerSheet
+* [Added] Support for [Card Brand Choice](https://stripe.com/docs/card-brand-choice).
+
+## X.Y.Z 2023-xx-yy
 ### Apple Pay
 * [Fixed] STPApplePayContext initializer returns nil in more cases where the request is invalid.
 * [Fixed] STPApplePayContext now allows Apple Pay when the customer doesn’t have saved cards but can set them up in the Apple Pay sheet (iOS 15+).
