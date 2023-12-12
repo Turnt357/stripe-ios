@@ -51,19 +51,36 @@ extension PaymentSheet {
             /// A user facing string representing the payment method; e.g. "Apple Pay" or "····4242" for a card
             public let label: String
 
+            /// Billing details associated with this payment method
+            public let billingDetails: PaymentSheet.BillingDetails
+
+            /// The associated payment method type
+            public let paymentMethodType: String
+
             init(paymentOption: PaymentOption) {
                 image = paymentOption.makeIcon(updateImageHandler: nil)
                 switch paymentOption {
                 case .applePay:
                     label = String.Localized.apple_pay
+                    // TODO: Determine what to return here for payment method type
+                    paymentMethodType = "apple_pay"
+                    billingDetails = BillingDetails()
                 case .saved(let paymentMethod):
                     label = paymentMethod.paymentSheetLabel
+                    paymentMethodType = paymentMethod.type.identifier
+                    billingDetails = paymentMethod.billingDetails?.toPaymentSheetBilingDetails() ?? BillingDetails()
                 case .new(let confirmParams):
                     label = confirmParams.paymentSheetLabel
+                    paymentMethodType = confirmParams.paymentMethodType.identifier
+                    billingDetails = confirmParams.paymentMethodParams.billingDetails?.toPaymentSheetBilingDetails() ?? BillingDetails()
                 case .link(let option):
                     label = option.paymentSheetLabel
-                case .external(let PaymentMethod, _):
-                    label = PaymentMethod.localizedLabel
+                    paymentMethodType = STPPaymentMethodType.link.identifier
+                    billingDetails = option.billingDetails.toPaymentSheetBilingDetails()
+                case .external(let paymentMethod, let stpbillingDetails):
+                    label = paymentMethod.localizedLabel
+                    paymentMethodType = paymentMethod.type
+                    billingDetails = stpbillingDetails.toPaymentSheetBilingDetails()
                 }
             }
         }

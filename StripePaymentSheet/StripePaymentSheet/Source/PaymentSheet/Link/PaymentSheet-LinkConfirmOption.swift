@@ -76,4 +76,20 @@ extension PaymentSheet.LinkConfirmOption {
         }
     }
 
+    var billingDetails: STPPaymentMethodBillingDetails {
+        switch self {
+        case .wallet:
+            return STPPaymentMethodBillingDetails()
+        case .signUp(_, _, _, let paymentMethodParams):
+            return paymentMethodParams.billingDetails ?? STPPaymentMethodBillingDetails()
+        case .withPaymentDetails:
+            // TODO: Maybe not in use?
+            return STPPaymentMethodBillingDetails()
+        case .withPaymentMethodParams(_, let paymentMethodParams):
+            return paymentMethodParams.billingDetails ?? STPPaymentMethodBillingDetails()
+        case .withPaymentMethod(let paymentMethod):
+            return paymentMethod.billingDetails ?? STPPaymentMethodBillingDetails()
+        }
+    }
+
 }

@@ -432,3 +432,18 @@ extension PaymentSheet {
         public var externalPaymentMethodConfirmHandler: ExternalPaymentMethodConfirmHandler
     }
 }
+
+extension STPPaymentMethodBillingDetails {
+    func toPaymentSheetBilingDetails() -> PaymentSheet.BillingDetails {
+        let address = PaymentSheet.Address(city: self.address?.city,
+                                           country: self.address?.country,
+                                           line1: self.address?.line1,
+                                           line2: self.address?.line2,
+                                           postalCode: self.address?.postalCode,
+                                           state: self.address?.state)
+        return PaymentSheet.BillingDetails(address: address,
+                                           email: self.email,
+                                           name: self.name,
+                                           phone: self.phone)
+    }
+}
